@@ -25,6 +25,10 @@
   ],
   "tags": [
     {
+      "name": "Authentication",
+      "description": "User authentication and management endpoints"
+    },
+    {
       "name": "Greetings",
       "description": "Greeting endpoints"
     },
@@ -33,6 +37,48 @@
       "description": "String manipulation endpoints"
     }
   ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "Firebase ID token"
+      }
+    },
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "uid": {
+            "type": "string",
+            "description": "Firebase user ID"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "photoURL": {
+            "type": "string"
+          },
+          "emailVerified": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastLoginAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    }
+  },
   "paths": {
     "/": {
       "get": {

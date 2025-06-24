@@ -2,6 +2,10 @@ const express = require('express');
 const cors = require('cors');
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
+require('dotenv').config();
+
+// Initialize Firebase
+require('./config/firebase');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -31,13 +35,33 @@ const swaggerOptions = {
       }
     ]
   },
-  apis: ['./index.js', './routes/*.js'] // Files containing annotations
+  apis: ['./index.js', './routes/*.js'], // Files containing annotations
+  tags: [
+    {
+      name: 'Authentication',
+      description: 'User authentication and management endpoints'
+    },
+    {
+      name: 'Greetings',
+      description: 'Greeting endpoints'
+    },
+    {
+      name: 'String Operations',
+      description: 'String manipulation endpoints'
+    }
+  ]
 };
 
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
 
 // Swagger UI route
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
+// Import routes
+const authRoutes = require('./routes/auth');
+
+// Use routes
+app.use('/auth', authRoutes);
 
 /**
  * @swagger
