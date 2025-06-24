@@ -1,0 +1,195 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Node API for Vercel",
+    "version": "1.0.0",
+    "description": "A simple API with hello and palindrome endpoints",
+    "contact": {
+      "name": "API Support",
+      "email": "support@example.com"
+    },
+    "license": {
+      "name": "ISC",
+      "url": "https://opensource.org/licenses/ISC"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://your-app-name.vercel.app",
+      "description": "Production server"
+    },
+    {
+      "url": "http://localhost:3000",
+      "description": "Development server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Greetings",
+      "description": "Greeting endpoints"
+    },
+    {
+      "name": "String Operations",
+      "description": "String manipulation endpoints"
+    }
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Root endpoint",
+        "description": "Returns a welcome message",
+        "operationId": "getRoot",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Welcome to the API"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/hello": {
+      "get": {
+        "summary": "Hello from Vercel",
+        "description": "Returns a greeting message from Vercel",
+        "operationId": "getHello",
+        "tags": ["Greetings"],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Hello from Vercel"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/palindrome": {
+      "post": {
+        "summary": "Get palindrome of a word",
+        "description": "Returns the palindrome (reverse) of the provided word",
+        "operationId": "postPalindrome",
+        "tags": ["String Operations"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["word"],
+                "properties": {
+                  "word": {
+                    "type": "string",
+                    "description": "The word to reverse",
+                    "example": "hello"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "original": {
+                      "type": "string",
+                      "example": "hello"
+                    },
+                    "palindrome": {
+                      "type": "string",
+                      "example": "olleh"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - word not provided",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Please provide a word"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/palindrome/{word}": {
+      "get": {
+        "summary": "Get palindrome of a word (GET method)",
+        "description": "Returns the palindrome (reverse) of the provided word via URL parameter",
+        "operationId": "getPalindrome",
+        "tags": ["String Operations"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "word",
+            "required": true,
+            "description": "The word to reverse",
+            "schema": {
+              "type": "string",
+              "example": "hello"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "original": {
+                      "type": "string",
+                      "example": "hello"
+                    },
+                    "palindrome": {
+                      "type": "string",
+                      "example": "olleh"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+} 
